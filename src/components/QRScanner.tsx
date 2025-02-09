@@ -56,7 +56,7 @@ const QRScanner = ({ onResult, onError }: QRScannerProps) => {
             onResult={handleScan}
             onError={handleError}
             constraints={{
-              video: { facingMode: "environment" }
+              facingMode: "environment"
             }}
           />
         </div>

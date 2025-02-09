@@ -3,7 +3,6 @@ import { UserData } from "@/data/mockData";
 import { Badge } from "./ui/badge";
 import { Card } from "./ui/card";
 import { Skeleton } from "./ui/skeleton";
-import Image from 'next/image'
 
 interface UserCardProps {
   userData: UserData;

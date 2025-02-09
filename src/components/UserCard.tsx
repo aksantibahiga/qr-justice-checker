@@ -1,4 +1,3 @@
-
 import { UserData } from "@/data/mockData";
 import { Badge } from "./ui/badge";
 import { Card } from "./ui/card";

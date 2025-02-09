@@ -13,10 +13,11 @@ interface QRScannerProps {
 const QRScanner = ({ onResult, onError }: QRScannerProps) => {
   const [isScanning, setIsScanning] = useState(false);
 
-  const handleScan = (result: string) => {
-    if (result) {
+  const handleScan = (result: { getText: () => string }[]) => {
+    if (result && result.length > 0) {
+      const text = result[0].getText();
       setIsScanning(false);
-      onResult(result);
+      onResult(text);
     }
   };
 

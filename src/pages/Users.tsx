@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import QRCode from "react-qr-code";
 import { Button } from "@/components/ui/button";
@@ -47,7 +46,7 @@ const formSchema = z.object({
   prenom: z.string().min(2),
   telephone: z.string().min(10),
   plaque: z.string().min(2),
-  status: z.enum(['avocat', 'magistrat', 'fonctionnaire'] as const),
+  status: z.enum(["avocat", "magistrat", "fonctionnaire"] as const),
   photoVehicule: z.string().url(),
   photoPortrait: z.string().url(),
 });
@@ -85,7 +84,7 @@ const Users = () => {
       canvas.height = img.height;
       ctx?.drawImage(img, 0, 0);
       const pngFile = canvas.toDataURL("image/png");
-      
+
       const downloadLink = document.createElement("a");
       downloadLink.download = `qr-${userId}.png`;
       downloadLink.href = pngFile;
@@ -93,7 +92,7 @@ const Users = () => {
 
       toast({
         title: "QR Code téléchargé",
-        description: "Le QR code a été téléchargé avec succès."
+        description: "Le QR code a été téléchargé avec succès.",
       });
     };
 
@@ -101,12 +100,13 @@ const Users = () => {
   };
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
+    // @ts-ignore
     addUser(values);
     setIsModalOpen(false);
     form.reset();
     toast({
       title: "Utilisateur ajouté",
-      description: "Le nouvel utilisateur a été ajouté avec succès."
+      description: "Le nouvel utilisateur a été ajouté avec succès.",
     });
   };
 
@@ -115,12 +115,14 @@ const Users = () => {
       <div className="container max-w-6xl mx-auto px-4 py-8">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-4xl font-bold mb-2">Gestion des Utilisateurs</h1>
+            <h1 className="text-4xl font-bold mb-2">
+              Gestion des Utilisateurs
+            </h1>
             <p className="text-muted-foreground">
               Gérez les utilisateurs et leurs QR codes
             </p>
           </div>
-          
+
           <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
             <DialogTrigger asChild>
               <Button className="gap-2">
@@ -133,7 +135,10 @@ const Users = () => {
                 <DialogTitle>Ajouter un nouvel utilisateur</DialogTitle>
               </DialogHeader>
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <form
+                  onSubmit={form.handleSubmit(onSubmit)}
+                  className="space-y-4"
+                >
                   <FormField
                     control={form.control}
                     name="nom"
@@ -192,8 +197,8 @@ const Users = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>Rôle</FormLabel>
-                        <Select 
-                          onValueChange={field.onChange} 
+                        <Select
+                          onValueChange={field.onChange}
                           defaultValue={field.value}
                         >
                           <FormControl>
@@ -204,7 +209,9 @@ const Users = () => {
                           <SelectContent>
                             <SelectItem value="avocat">Avocat</SelectItem>
                             <SelectItem value="magistrat">Magistrat</SelectItem>
-                            <SelectItem value="fonctionnaire">Fonctionnaire</SelectItem>
+                            <SelectItem value="fonctionnaire">
+                              Fonctionnaire
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                         <FormMessage />
@@ -277,19 +284,31 @@ const Users = () => {
                   <TableCell>
                     <div className="flex gap-2">
                       <Button
-                        variant={selectedUser === user.id ? "outline" : "default"}
+                        variant={
+                          selectedUser === user.id ? "outline" : "default"
+                        }
                         size="sm"
-                        onClick={() => setSelectedUser(selectedUser === user.id ? null : user.id)}
+                        onClick={() =>
+                          setSelectedUser(
+                            selectedUser === user.id ? null : user.id
+                          )
+                        }
                         className="gap-2"
                       >
                         <QrCode className="w-4 h-4" />
                         {selectedUser === user.id ? "Masquer" : "QR Code"}
                       </Button>
-                      
+
                       {selectedUser === user.id && (
                         <>
-                          <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center" onClick={() => setSelectedUser(null)}>
-                            <div className="bg-white p-6 rounded-lg" onClick={e => e.stopPropagation()}>
+                          <div
+                            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
+                            onClick={() => setSelectedUser(null)}
+                          >
+                            <div
+                              className="bg-white p-6 rounded-lg"
+                              onClick={(e) => e.stopPropagation()}
+                            >
                               <QRCode
                                 id={`qr-${user.id}`}
                                 value={user.qrCode}

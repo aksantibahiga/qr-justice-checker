@@ -1,7 +1,6 @@
-
-import { create } from 'zustand';
-import { mockUsers, UserData, UserStatus } from '@/data/mockData';
-import { persist } from 'zustand/middleware';
+import { create } from "zustand";
+import { mockUsers, UserData, UserStatus } from "@/data/mockData";
+import { persist } from "zustand/middleware";
 
 interface UserStore {
   users: UserData[];
@@ -12,16 +11,20 @@ export const useUserStore = create<UserStore>()(
   persist(
     (set) => ({
       users: mockUsers,
-      addUser: (userData) => set((state) => ({
-        users: [...state.users, {
-          ...userData,
-          id: crypto.randomUUID(),
-          qrCode: `user-${Date.now()}`
-        }]
-      }))
+      addUser: (userData) =>
+        set((state) => ({
+          users: [
+            ...state.users,
+            {
+              ...userData,
+              id: crypto.randomUUID(),
+              qrCode: `user-${Date.now()}`,
+            },
+          ],
+        })),
     }),
     {
-      name: 'user-storage'
+      name: "user-storage",
     }
   )
 );

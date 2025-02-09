@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import QRScanner from "@/components/QRScanner";
 import UserCard, { UserCardSkeleton } from "@/components/UserCard";
@@ -12,26 +11,27 @@ const Index = () => {
   const { toast } = useToast();
 
   const handleScanResult = async (result: string) => {
+    console.log(result);
     setIsLoading(true);
     try {
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       const user = findUserByQR(result);
-      
+
       if (user) {
         setUserData(user);
       } else {
         toast({
           variant: "destructive",
           title: "Utilisateur non trouvé",
-          description: "Aucun utilisateur trouvé pour ce QR code."
+          description: "Aucun utilisateur trouvé pour ce QR code.",
         });
       }
     } catch (error) {
       toast({
         variant: "destructive",
         title: "Erreur",
-        description: "Une erreur est survenue lors de la vérification."
+        description: "Une erreur est survenue lors de la vérification.",
       });
     } finally {
       setIsLoading(false);
@@ -42,7 +42,7 @@ const Index = () => {
     toast({
       variant: "destructive",
       title: "Erreur",
-      description: error
+      description: error,
     });
   };
 
@@ -50,7 +50,7 @@ const Index = () => {
     <div className="min-h-screen bg-slate-50">
       <div className="container max-w-4xl mx-auto px-4 py-8">
         <div className="text-center mb-8 fade-in">
-          <h1 className="text-4xl font-bold mb-2">QR Justice Checker</h1>
+          <h1 className="text-4xl font-bold mb-2">Bukavu - Barreau</h1>
           <p className="text-muted-foreground">
             Scannez le QR code pour vérifier l'identité
           </p>
@@ -58,17 +58,12 @@ const Index = () => {
 
         <div className="space-y-6">
           {!userData && !isLoading && (
-            <QRScanner
-              onResult={handleScanResult}
-              onError={handleScanError}
-            />
+            <QRScanner onResult={handleScanResult} onError={handleScanError} />
           )}
 
           {isLoading && <UserCardSkeleton />}
-          
-          {userData && !isLoading && (
-            <UserCard userData={userData} />
-          )}
+
+          {userData && !isLoading && <UserCard userData={userData} />}
         </div>
       </div>
     </div>

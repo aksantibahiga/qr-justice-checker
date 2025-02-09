@@ -1,6 +1,5 @@
-
 import { useState } from "react";
-import { Scanner } from "@yudiel/react-qr-scanner";
+import { IDetectedBarcode, Scanner } from "@yudiel/react-qr-scanner";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Camera, X } from "lucide-react";
@@ -13,10 +12,11 @@ interface QRScannerProps {
 const QRScanner = ({ onResult, onError }: QRScannerProps) => {
   const [isScanning, setIsScanning] = useState(false);
 
-  const handleScan = (result: string | null) => {
+  const handleScan = (result: IDetectedBarcode[]) => {
     if (result) {
+      console.log(result);
       setIsScanning(false);
-      onResult(result);
+      onResult(result[0].rawValue);
     }
   };
 
@@ -53,10 +53,10 @@ const QRScanner = ({ onResult, onError }: QRScannerProps) => {
             </Button>
           </div>
           <Scanner
-            onResult={handleScan}
+            onScan={handleScan}
             onError={handleError}
             constraints={{
-              facingMode: "environment"
+              facingMode: "environment",
             }}
           />
         </div>

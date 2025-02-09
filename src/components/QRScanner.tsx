@@ -53,7 +53,7 @@ const QRScanner = ({ onResult, onError }: QRScannerProps) => {
             </Button>
           </div>
           <Scanner
-            onResult={handleScan}
+            onScan={handleScan}
             onError={handleError}
             constraints={{
               facingMode: "environment"

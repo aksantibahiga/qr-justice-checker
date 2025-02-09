@@ -13,11 +13,10 @@ interface QRScannerProps {
 const QRScanner = ({ onResult, onError }: QRScannerProps) => {
   const [isScanning, setIsScanning] = useState(false);
 
-  const handleScan = (result: { getText: () => string }[]) => {
-    if (result && result.length > 0) {
-      const text = result[0].getText();
+  const handleScan = (result: string | null) => {
+    if (result) {
       setIsScanning(false);
-      onResult(text);
+      onResult(result);
     }
   };
 
@@ -54,7 +53,7 @@ const QRScanner = ({ onResult, onError }: QRScannerProps) => {
             </Button>
           </div>
           <Scanner
-            onScan={handleScan}
+            onResult={handleScan}
             onError={handleError}
             constraints={{
               facingMode: "environment"

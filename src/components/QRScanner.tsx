@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
@@ -13,6 +13,7 @@ interface QRScannerProps {
 const QRScanner = ({ onResult, onError }: QRScannerProps) => {
   const [isScanning, setIsScanning] = useState(false);
   const [scanner, setScanner] = useState<Html5QrcodeScanner | null>(null);
+  const scannerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     return () => {
@@ -23,6 +24,8 @@ const QRScanner = ({ onResult, onError }: QRScannerProps) => {
   }, [scanner]);
 
   const startScanning = () => {
+    if (!scannerRef.current) return;
+
     const newScanner = new Html5QrcodeScanner(
       "reader",
       {
@@ -84,7 +87,7 @@ const QRScanner = ({ onResult, onError }: QRScannerProps) => {
               <X className="w-5 h-5" />
             </Button>
           </div>
-          <div id="reader" className="w-full" />
+          <div id="reader" ref={scannerRef} className="w-full" />
         </div>
       )}
     </Card>
